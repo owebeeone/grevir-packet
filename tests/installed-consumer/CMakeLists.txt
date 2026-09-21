@@ -1,0 +1,6 @@
+cmake_minimum_required(VERSION 3.20)
+project(grevir_packet_consumer LANGUAGES CXX)
+find_package(grevir-packet CONFIG REQUIRED)
+add_executable(grevir_packet_consumer main.cpp)
+target_link_libraries(grevir_packet_consumer PRIVATE grevir::packet)
+set_target_properties(grevir_packet_consumer PROPERTIES CXX_EXTENSIONS OFF)

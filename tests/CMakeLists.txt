@@ -1,0 +1,6 @@
+if(GREVIR_BUILD_COMPILE_CHECKS)
+  include(compile_checks.cmake)
+endif()
+if(GREVIR_BUILD_HOST_TESTS)
+  include(runtime.cmake)
+endif()
