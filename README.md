@@ -1,5 +1,15 @@
 # Grevir Packet
 
+**Public API:** [Grevir Packet](https://github.com/owebeeone/grevir-wz/blob/main/docs/api/packet.md).
+See [installation](https://github.com/owebeeone/grevir-wz/blob/main/docs/install.md) and
+[supported platforms](https://github.com/owebeeone/grevir-wz/blob/main/docs/supported.md).
+The workspace `/docs` is the current user-facing contract; development
+checkpoints below are historical.
+
+Bounded transport-independent fragmentation and reassembly.
+
+## Development record (historical)
+
 Transport-independent packet fragmentation and reassembly, extracted from Ardoinus
 `ardOnet/src/ardo_packet_reassembler.h`. The package supplies header format,
 reassembler, bounded pool/receiver and sender headers under `grevir/packet/`.
