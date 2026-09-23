@@ -62,7 +62,7 @@ public:
     current_length = 0;
     const auto count = last + 1u;
     outstanding_bitmap = count == LIMIT_MAX_FRAGMENT_COUNT
-      ? std::numeric_limits<BitmapType>::max() : (BitmapType(1) << count) - BitmapType(1);
+      ? (std::numeric_limits<BitmapType>::max)() : (BitmapType(1) << count) - BitmapType(1);
     return true;
   }
 

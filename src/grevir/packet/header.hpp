@@ -45,14 +45,14 @@ template <std::uint32_t Count, std::uint32_t Size>
 struct Limits {
   static_assert(Count > 0 && Count <= 32, "Fragment count must be in 1..32");
   static_assert(Size > 0, "Fragment size must be positive");
-  static_assert(Count == 0 || Size <= std::numeric_limits<std::uint32_t>::max() / Count,
+  static_assert(Count == 0 || Size <= (std::numeric_limits<std::uint32_t>::max)() / Count,
                 "Packet capacity must fit uint32_t");
-  static_assert(Size <= std::numeric_limits<std::uint32_t>::max() - header_size,
+  static_assert(Size <= (std::numeric_limits<std::uint32_t>::max)() - header_size,
                 "Wire fragment length must fit uint32_t");
   static constexpr std::uint32_t capacity = Count * Size;
-  static_assert(capacity <= std::numeric_limits<std::size_t>::max(),
+  static_assert(capacity <= (std::numeric_limits<std::size_t>::max)(),
                 "Packet buffer must fit the target address space");
-  static_assert(Size <= std::numeric_limits<std::size_t>::max() - header_size,
+  static_assert(Size <= (std::numeric_limits<std::size_t>::max)() - header_size,
                 "Wire fragment must fit the target address space");
 };
 

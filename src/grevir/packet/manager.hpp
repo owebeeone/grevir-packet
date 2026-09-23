@@ -17,7 +17,7 @@ public:
   using PacketSequencer = typename Reassembler::PacketSequencer;
   using Fragment = typename Reassembler::Fragment;
   static_assert(IN_FLIGHT_PACKET_COUNT > 0, "At least one in-flight packet slot is required");
-  static_assert(IN_FLIGHT_PACKET_COUNT <= std::numeric_limits<std::size_t>::max() / sizeof(Reassembler),
+  static_assert(IN_FLIGHT_PACKET_COUNT <= (std::numeric_limits<std::size_t>::max)() / sizeof(Reassembler),
                 "Reassembler pool must fit the target address space");
 
   Reassembler* consume_fragment_packet(const Address& address, std::uint16_t port,
