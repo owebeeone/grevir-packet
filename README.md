@@ -3,8 +3,9 @@
 Transport-independent packet fragmentation and reassembly, extracted from Ardoinus
 `ardOnet/src/ardo_packet_reassembler.h`. The package supplies header format,
 reassembler, bounded pool/receiver and sender headers under `grevir/packet/`.
-`GrevirPacket.h` includes them all. It retains the `ardo` names and has no other
-Grevir, Arduino, Wi-Fi or UDP dependency.
+`GrevirPacket.h` includes them all. It retains the `ardo` names and depends on
+Grevir Base for its standard-library compatibility headers. It has no Arduino,
+Wi-Fi or UDP dependency.
 
 ## Installed use
 
@@ -13,11 +14,11 @@ find_package(grevir-packet CONFIG REQUIRED)
 target_link_libraries(my_app PRIVATE grevir::packet)
 ```
 
-The target requests C++23. The implementation uses standard `<array>`, `<cstddef>`,
-`<cstdint>`, `<cstring>`, `<limits>` and `<functional>` headers. The latter retains
-the optional `SenderFunc`/`ReceiverFunc` aliases. Ordinary callbacks are passed as
-template arguments, with no implicit `std::function` construction or storage.
-A caller may still explicitly choose an allocating callback or address type.
+The target requests C++23 and discovers Grevir Base automatically. Packet uses
+Base's compatible array, integer, size and numeric-limit headers, plus the C
+`<string.h>` functions, so the selected AVR build needs no libstdc++. Callbacks
+are passed as template arguments, with no implicit `std::function` construction
+or storage. A caller may explicitly choose an allocating callback or address type.
 
 ```cpp
 #include <GrevirPacket.h>
@@ -91,7 +92,7 @@ missing transport types, invalid callback captures/signatures and a main functio
 that discarded failures; its payload/ID/reordering scenarios are now Catch2 cases
 with reproducible shuffle seeds.
 
-Twelve packet cases and all 148 workspace host cases pass. Coverage includes the
+Twelve packet cases and all 186 workspace host cases pass. Coverage includes the
 original message sizes and shuffled streams, exact wire bytes and a known CRC-32C
 vector, all permutations of a three-fragment message, duplicates, malformed input,
 peer separation, the full 32-bit bitmap, a 128-KiB packet, marker escaping, empty
@@ -101,11 +102,13 @@ compiler probes check configuration bounds. Raw-token scope checks cover all eig
 new production/test C++ files, including any inactive preprocessor sections.
 
 The same twelve cases pass address/undefined sanitizers. A separate production
-build/install/consumer run uses only this package, with Catch2 and Test Support
-discovery disabled. Host results do not establish MCU library availability, RAM
-fit, code size or timing. Source review includes the shared policy and conventional
-AVR integer promotions; AVR compiler/hardware validation remain on hold.
+build/install/consumer run uses Packet and Base, with Catch2 and Test Support
+discovery disabled. The selected ATmega328P two-fragment loopback compiles and
+passes in simavr; Uno and Nano Arduino CLI sketches compile. See the
+[AVR evidence](../dev-docs/GrevirPacketAvrEvidence.md) for exact code size,
+provenance and limits. These selected runs do not establish every template
+instantiation, transport integration, physical timing or silicon behavior.
 
 Standalone tests require installed development-only Grevir Test Support plus
-Catch2 3.8.1; production and consumer builds require neither. Arduino metadata is
-provided, but Arduino compilation has not been validated.
+Catch2 3.8.1; production and consumer builds require neither. Arduino metadata
+declares Grevir Base as a dependency.

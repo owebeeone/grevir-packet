@@ -1,5 +1,6 @@
 #include <GrevirPacket.h>
 #include <array>
+#include <cstring>
 
 int main() {
   // Supply an opaque peer identity; no network or board header is required.
