@@ -1,8 +1,7 @@
 // Extracted from Ardoinus ardo_packet_reassembler.h; see LICENSE.txt.
 #pragma once
 #include <grevir/packet/reassembler.hpp>
-#include <array>
-#include <functional>
+#include <grevir/base/compat/array.hpp>
 
 namespace ardo {
 template <std::uint32_t w_InFlightPacketCount, std::uint32_t w_MaxFragmentCount,
@@ -64,7 +63,6 @@ public:
   static constexpr std::uint32_t IN_FLIGHT_PACKET_COUNT = w_InFlightPacketCount;
   static constexpr std::uint32_t MAX_FRAGMENT_COUNT = w_MaxFragmentCount;
   static constexpr std::uint32_t FRAGMENT_SIZE = w_FragmentSize;
-  using ReceiverFunc = std::function<void(const std::uint8_t*, std::uint32_t)>;
   using ReassemblerManager = PacketReassemblerManager<IN_FLIGHT_PACKET_COUNT,
     MAX_FRAGMENT_COUNT, FRAGMENT_SIZE, Address>;
   using Reassembler = typename ReassemblerManager::Reassembler;

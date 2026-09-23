@@ -85,7 +85,7 @@ public:
       return false;
     }
     StreamSequenceId incoming{};
-    std::memcpy(incoming.stream_sequence, data + 4, 8);
+    ::memcpy(incoming.stream_sequence, data + 4, 8);
     if (!(incoming == stream_sequence_id)) {
       return false;
     }
@@ -96,7 +96,7 @@ public:
     packet_sequence = sequencer.packet_sequence_gen;
     const auto offset = FRAGMENT_SIZE * index;
     const auto size = length - min_frag_size();
-    std::memcpy(payload + offset, data + min_frag_size(), size);
+    ::memcpy(payload + offset, data + min_frag_size(), size);
     if (index == fragment_max_index) {
       current_length = offset + size;
     }
@@ -109,7 +109,7 @@ public:
       return false;
     }
     start_new_packet(address, port, data[13]);
-    std::memcpy(stream_sequence_id.stream_sequence, data + 4, 8);
+    ::memcpy(stream_sequence_id.stream_sequence, data + 4, 8);
     return apply_fragment(data, sequencer, length);
   }
 
@@ -120,7 +120,7 @@ public:
       return INVALID_FRAGMENT;
     }
     StreamSequenceId incoming{};
-    std::memcpy(incoming.stream_sequence, data + 4, 8);
+    ::memcpy(incoming.stream_sequence, data + 4, 8);
     if (state != CLEAR && packet_matches(address, port, incoming)) {
       if (data[13] != fragment_max_index) {
         return INVALID_FRAGMENT;

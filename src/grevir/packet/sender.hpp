@@ -1,7 +1,6 @@
 // Extracted from Ardoinus ardo_packet_reassembler.h; see LICENSE.txt.
 #pragma once
 #include <grevir/packet/reassembler.hpp>
-#include <functional>
 
 namespace ardo {
 template <std::uint32_t w_MaxFragmentCount, std::uint32_t w_FragmentSize = 256>
@@ -11,7 +10,6 @@ public:
   static constexpr std::uint32_t FRAGMENT_SIZE = w_FragmentSize;
   using Reassembler = PacketReassembler<MAX_FRAGMENT_COUNT, FRAGMENT_SIZE>;
   static constexpr std::uint32_t MAX_PACKET_SIZE = Reassembler::MAX_PACKET_SIZE;
-  using SenderFunc = std::function<void(const std::uint8_t*, std::uint32_t)>;
   using Fragment = typename Reassembler::Fragment;
   using StreamSequenceId = typename Reassembler::StreamSequenceId;
   static constexpr std::uint32_t POLY = 0x82f63b78;
@@ -52,7 +50,7 @@ public:
     for (std::uint8_t i = 0; start < length; ++i) {
       fragment.fragment_index = i;
       const auto size = length - start < FRAGMENT_SIZE ? length - start : FRAGMENT_SIZE;
-      std::memcpy(fragment.payload, data + start, size);
+      ::memcpy(fragment.payload, data + start, size);
       sender(reinterpret_cast<const std::uint8_t*>(&fragment), Reassembler::min_frag_size() + size);
       start += size;
     }

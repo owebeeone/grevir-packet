@@ -1,15 +1,15 @@
 // Extracted from Ardoinus ardo_packet_reassembler.h; see LICENSE.txt.
 #pragma once
-#include <cstddef>
-#include <cstdint>
-#include <cstring>
-#include <limits>
+#include <grevir/base/compat/cstddef.hpp>
+#include <grevir/base/compat/cstdint.hpp>
+#include <grevir/base/compat/limits.hpp>
+#include <string.h>
 
 namespace ardo {
 struct HeaderContainer {
   std::uint8_t header[4];
   bool operator==(const HeaderContainer& rhs) const {
-    return std::memcmp(header, rhs.header, sizeof(header)) == 0;
+    return ::memcmp(header, rhs.header, sizeof(header)) == 0;
   }
   bool operator!=(const HeaderContainer& rhs) const {
     return !(*this == rhs);
@@ -29,7 +29,7 @@ struct FragmentHeaderContainer {
 struct StreamSequenceId {
   std::uint8_t stream_sequence[8]{};
   bool operator==(const StreamSequenceId& rhs) const {
-    return std::memcmp(stream_sequence, rhs.stream_sequence, sizeof(stream_sequence)) == 0;
+    return ::memcmp(stream_sequence, rhs.stream_sequence, sizeof(stream_sequence)) == 0;
   }
 };
 
@@ -38,7 +38,7 @@ inline constexpr std::uint32_t header_size = 14;
 inline bool has_marker(const std::uint8_t* data, std::uint32_t length) {
   const FragmentHeaderContainer marker{};
   return data != nullptr && length >= 4
-    && std::memcmp(data, marker.header_container.header, 4) == 0;
+    && ::memcmp(data, marker.header_container.header, 4) == 0;
 }
 
 template <std::uint32_t Count, std::uint32_t Size>
